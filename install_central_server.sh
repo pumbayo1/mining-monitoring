@@ -1,21 +1,27 @@
 #!/bin/bash
 
+# Sprawdzenie, czy skrypt jest uruchamiany jako root
+if [ "$(id -u)" -ne 0 ]; then
+  echo "Proszę uruchomić skrypt jako root."
+  exit 1
+fi
+
 # Pytanie o lokalizację, gdzie mają być przechowywane dane
 read -p "Podaj katalog, gdzie będą przechowywane dane (domyślnie: /root/mining_data): " CENTRAL_DIR
 CENTRAL_DIR=${CENTRAL_DIR:-/root/mining_data}
 
 # Tworzenie katalogów na dane z serwerów i sumy
 echo "Tworzenie katalogów..."
-mkdir -p $CENTRAL_DIR/serwery
-mkdir -p $CENTRAL_DIR/sumy
+mkdir -p "$CENTRAL_DIR/serwery"
+mkdir -p "$CENTRAL_DIR/sumy"
 SCRIPT_DIR="/root/scripts"
-mkdir -p $SCRIPT_DIR
+mkdir -p "$SCRIPT_DIR"
 
 # Tworzenie skryptu sumującego dane
 echo "Tworzenie skryptu sumującego zarobki..."
 SUM_SCRIPT="$SCRIPT_DIR/sum_earnings.sh"
 
-cat > $SUM_SCRIPT <<EOL
+cat > "$SUM_SCRIPT" <<EOL
 #!/bin/bash
 
 # Folder, w którym znajdują się pliki mining_history.csv z serwerów
@@ -43,7 +49,7 @@ echo "Suma zarobków zapisana do \$SUM_FILE. Łączny zarobek: \$TOTAL_EARNINGS 
 EOL
 
 # Ustawienie uprawnień do wykonywania skryptu
-chmod +x $SUM_SCRIPT
+chmod +x "$SUM_SCRIPT"
 
 # Dodanie zadania do cron, aby uruchamiało się co godzinę
 echo "Konfiguracja cron..."
