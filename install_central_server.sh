@@ -1,13 +1,14 @@
 #!/bin/bash
 
-# Zmienna dla katalogu centralnego serwera
-CENTRAL_DIR="/home/user/mining_data"
-SCRIPT_DIR="/home/user/scripts"
+# Pytanie o lokalizację, gdzie mają być przechowywane dane
+read -p "Podaj katalog, gdzie będą przechowywane dane (domyślnie: /root/mining_data): " CENTRAL_DIR
+CENTRAL_DIR=${CENTRAL_DIR:-/root/mining_data}
 
-# Utworzenie katalogów na dane z serwerów i na sumy
+# Tworzenie katalogów na dane z serwerów i sumy
 echo "Tworzenie katalogów..."
 mkdir -p $CENTRAL_DIR/serwery
 mkdir -p $CENTRAL_DIR/sumy
+SCRIPT_DIR="/root/scripts"
 mkdir -p $SCRIPT_DIR
 
 # Tworzenie skryptu sumującego dane
